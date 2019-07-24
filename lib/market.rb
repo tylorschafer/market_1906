@@ -35,17 +35,15 @@ class Market
   end
 
   def sell(item, quantity)
-    quantity_sold = quantity
-    if total_inventory[item] > quantity_sold
+    quantity_to_sell = quantity
+    if total_inventory[item] > quantity_to_sell
       vendors_with_items = @vendors.find_all {|vendor| vendor.check_stock(item) != 0}
       vendors_with_items.each do |vendor|
-        if quantity_sold == 0
+        if vendor.check_stock(item) > quantity_to_sell
+          vendor.inventory[item] -= quantity_to_sell
           return true
-        elsif vendor.check_stock(item) > quantity_sold
-          vendor.inventory[item] -= quantity_sold
-          return true
-        elsif vendor.check_stock(item) < quantity_sold
-          quantity_sold -= vendor.check_stock(item)
+        else
+          quantity_to_sell -= vendor.check_stock(item)
           vendor.inventory[item] = 0
         end
       end
