@@ -41,7 +41,7 @@ class VendorTest < Minitest::Test
 
     expected = ["Rocky Mountain Fresh", "Ba-Nom-a-Nom", "Palisade Peach Shack"]
 
-    assert_equal expected, @market.vendor_name
+    assert_equal expected, @market.vendor_names
   end
 
   def test_vendors_that_sell
