@@ -72,6 +72,9 @@ class VendorTest < Minitest::Test
   end
 
   def test_sell
+    @market.add_vendor(@vendor_1)
+    @market.add_vendor(@vendor_2)
+    @market.add_vendor(@vendor_3)
     @market.sell("Peaches", 200)
     @market.sell("Onions", 1)
     @market.sell("Banana Nice Cream", 5)

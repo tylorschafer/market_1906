@@ -1,3 +1,5 @@
+require 'pry'
+
 class Market
   attr_reader :name, :vendors
 
@@ -30,5 +32,25 @@ class Market
       end
     end
     total_inventory
+  end
+
+  def sell(item, quantity)
+    quantity_sold = quantity
+    if total_inventory[item] > quantity_sold
+      vendors_with_items = @vendors.find_all {|vendor| vendor.check_stock(item) != 0}
+      vendors_with_items.each do |vendor|
+        if quantity_sold == 0
+          return true
+        elsif vendor.check_stock(item) > quantity_sold
+          vendor.inventory[item] -= quantity_sold
+          return true
+        elsif vendor.check_stock(item) < quantity_sold
+          quantity_sold -= vendor.check_stock(item)
+          vendor.inventory[item] = 0
+        end
+      end
+    else
+      return false
+    end
   end
 end
